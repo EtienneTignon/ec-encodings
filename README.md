@@ -14,3 +14,7 @@ Right now, there is encodings destined for `clingo` and `clingo-dl`. Other will 
 
 ## List of future implementations
 * Durations inspired by other works from the litterature
+* Durations with difference constraints
+
+# Note :
+For now, the instance to test is single agent path finding. Extention to MAPF is otw
