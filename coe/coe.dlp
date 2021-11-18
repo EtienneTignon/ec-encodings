@@ -1,0 +1,14 @@
+rank(etienne_job, phd, after(et_master_degree)).
+rank(etienne_job, master, before(et_master_degree)).
+rank(klaus_job, phd, after(kl_master_degree)).
+rank(klaus_works, project, after(start_proj)).
+rank(etienne_works, project, after(start_proj)).
+rank(etienne_works, reading, before(start_proj)).
+rank(etienne_works, reading, after(et_master_degree)).
+
+&diff{0 - X} <= 0 :- rank(_, _, before(X)).
+&diff{0 - X} <= 0 :- rank(_, _, after(X)).
+
+&diff{Z' - Z} <= -1 :- rank(X, Y, before(Z)), rank(X, Y, after(Z')).
+
+#show.

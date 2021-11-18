@@ -1,0 +1,24 @@
+rank(etienne_job, phd, after(et_master_degree)).
+rank(etienne_job, master, before(et_master_degree)).
+rank(klaus_job, phd, after(kl_master_degree)).
+rank(klaus_works, project, after(start_proj)).
+rank(etienne_works, project, after(start_proj)).
+rank(etienne_works, reading, before(start_proj)).
+rank(etienne_works, reading, after(et_master_degree)).
+
+dur(start_proj,1).
+min(etienne_job, phd, 3).
+min(etienne_job, phd, 3).
+min(klaus_job, master, 2).
+
+event(X) :- rank(_, _, before(X)).
+event(X) :- rank(_, _, after(X)).
+
+&diff{start(X) - end(X)} <= 0 :- event(X).
+&diff{start(X) - end(X)} <= -D :- dur(X,D).
+
+&diff{end(Z') - start(Z)} <= -1 :- rank(X, Y, before(Z)), rank(X, Y, after(Z')).
+&diff{end(Z') - start(Z)} <= -D :- rank(X, Y, before(Z)), rank(X, Y, after(Z')), min(X,Y,D).
+&diff{start(Z) - end(Z')} <= D :- rank(X, Y, before(Z)), rank(X, Y, after(Z')), max(X,Y,D).
+
+#show.
