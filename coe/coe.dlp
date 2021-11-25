@@ -1,3 +1,5 @@
+%Data
+
 rank(etienne_job, phd, after(et_master_degree)).
 rank(etienne_job, master, before(et_master_degree)).
 rank(klaus_job, phd, after(kl_master_degree)).
@@ -6,9 +8,31 @@ rank(etienne_works, project, after(start_proj)).
 rank(etienne_works, reading, before(start_proj)).
 rank(etienne_works, reading, after(et_master_degree)).
 
-&diff{0 - X} <= 0 :- rank(_, _, before(X)).
-&diff{0 - X} <= 0 :- rank(_, _, after(X)).
+%Getting all start and end of intervals
 
-&diff{Z' - Z} <= -1 :- rank(X, Y, before(Z)), rank(X, Y, after(Z')).
+rank((X,Y)) :- rank(X, Y, _).
+str(Z,(X,Y)) :- rank(X, Y, after(Z)).
+end(Z,(X,Y)) :- rank(X, Y, before(Z)).
 
-#show.
+nbr_end(R,N) :- N = #count{s(E,R) : end(E,R)}, rank(R).
+nbr_str(R,N) :- N = #count{s(E,R) : str(E,R)}, rank(R).
+
+new_end(ne(1..Diff,R),R) :- nbr_end(R,Ne), nbr_str(R,Ns), Ne<Ns, Diff=Ns-Ne.
+new_str(ns(1..Diff,R),R) :- nbr_end(R,Ne), nbr_str(R,Ns), Ne>Ns, Diff=Ne-Ns.
+
+%Definimg all intervals
+
+{interval(R,(S,E)) : str(S,R) ; interval(R,(S,E)) : new_str(S,R) }=1 :- end(E,R).
+{interval(R,(S,E)) : end(E,R) ; interval(R,(S,E)) : new_end(E,R) }=1 :- str(S,R).
+
+%Let's DL them!
+
+&diff{0 - Z} <= 0 :- str(Z,R).
+&diff{0 - Z} <= 0 :- end(Z,R).
+&diff{0 - Z} <= 0 :- new_str(Z,R).
+&diff{0 - Z} <= 0 :- new_end(Z,R).
+
+&diff{S - E} <= -1 :- interval(R,(S,E)).
+:- interval(R,(S,E)), interval(R,(S',E')), (S,E) != (S',E'), &diff{S - S'} <= 0, &diff{S' - E} <= 0.
+
+#show interval/2.
