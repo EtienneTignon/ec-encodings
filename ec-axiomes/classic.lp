@@ -1,5 +1,5 @@
 %Effect of event in fluents
-sholds_at(F,T) :- initiated(F,T'), not stopped_in(T',F,T-1), timepoint(T).
+holds_at(F,T) :- initiated(F,T'), not stopped_in(T',F,T-1), timepoint(T).
 not holds_at(F,T) :- terminated(F,T'), not started_in(T',F,T-1), timepoint(T).
 
 %Inertia
