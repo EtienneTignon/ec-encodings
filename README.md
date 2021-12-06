@@ -17,6 +17,9 @@ Right now, there is encodings destined for `clingo` and `clingo-dl`. Other will 
  * **SEC**: A simplified one from (Kowalski, 1986; Shanahan, 1997, chapter 13)
  * **EC**: The common one from (Miller & Shanahan, 2002)
  * **DEC**: A discrete one from (Mueller, 2004)
+* **Action Language E**: Implementations of the action language E, inspired by Event Calculus
+ * **Hard Coded**: A direct implementation of the one from (Dimopoulos et al, 2004)
+ * **Basics**: A rewriting of the previous one, with generalized predicate. (**TODO**)
 
 ## List of future implementations
 * Durations inspired by other works from the litterature
